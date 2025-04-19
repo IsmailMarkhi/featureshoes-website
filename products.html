@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FeatureShoes - Products</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Open+Sans:wght@400;700&display=swap');
+
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      min-width: 320px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #000;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 10px #00ff00;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+    }
+    .menu-icon {
+      display: none;
+      font-size: 1.8rem;
+      color: #00ff00;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+    }
+    nav a:hover, nav a.active {
+      color: #00ff00;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #00ff00;
+      transition: width 0.3s;
+    }
+    nav a:hover::after, nav a.active::after {
+      width: 100%;
+    }
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background-color: #000;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 255, 102, 0.1);
+      }
+      nav.show {
+        display: flex;
+      }
+      nav a {
+        padding: 15px;
+        border-top: 1px solid #111;
+      }
+      .menu-icon {
+        display: block;
+      }
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 60px;
+      background-color: #111;
+    }
+    .card {
+      background-color: #000;
+      border: 2px solid #00ff00;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ff00;
+    }
+    .card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 20px;
+      text-align: center;
+    }
+    .card-body h3 {
+      margin: 0 0 10px;
+      color: #00ff00;
+    }
+    .card-body p {
+      margin: 0 0 15px;
+      font-size: 0.95rem;
+    }
+    .card-body button {
+      padding: 10px 24px;
+      background-color: #00ff00;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .card-body button:hover {
+      background-color: #00cc55;
+    }
+    .pagination {
+      text-align: center;
+      padding: 20px;
+    }
+    .pagination button {
+      background: none;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      padding: 10px 16px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+    .pagination button.active,
+    .pagination button:hover {
+      background-color: #00ff00;
+      color: #000;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      background-color: #000;
+      font-size: 13px;
+      color: #00ff00;
+      text-shadow: 0 0 8px #00ff00;
+      border-top: 1px solid #222;
+    }
+    
+    /*logo animation*/
+    
+    .logo-container {
+      position: relative;
+      text-align: center;
+    }
+
+    .logo-title {
+      max-width: 300px;
+      filter: drop-shadow(0 0 20px #00ff00);
+    }
+
+    .logo-text {
+      color: #00ff00;
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px #00ff00,
+                   0 0 20px #00ff00,
+                   0 0 30px #00ff00;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #00ff00;
+      }
+      to {
+        text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+      }
+    }
+
+    .football {
+      position: absolute;
+      top: 4px;
+      left: 195px;
+      width: 40px;
+      animation: moveBall 3s infinite ease-in-out;
+    }
+
+    @keyframes moveBall {
+      0% { transform: translateX(0) rotate(0deg); }
+      50% { transform: translateX(200px) rotate(180deg); }
+      100% { transform: translateX(0) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <!-- كرة القدم -->
+    <img src="ball.png" class="football" alt="Football">
+     <!-- شعار FeatureShoes -->
+     <a href="index.html"style="text-decoration:none;" class="logo"class="logo-text"class="logo-title">FeatureShoes</a>
+  </div>
+
+    <div class="menu-icon" onclick="toggleMenu(this)">
+      <i class="fas fa-bars"></i>
+    </div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="cart.html">Cart</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="pagination" id="pagination"></div>
+  <section class="products" id="productList"></section>
+
+  <footer>
+    <p>&copy; 2025 FeatureShoes. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const products = [
+    //1
+      { id: 1, name: "Predator Elite", price: 120, image: "f50.avif", stock: 5 },
+      { id: 2, name: "Speed Phantom", price: 105, image: "ii1.png", stock: 3 },
+      { id: 3, name: "Midfield Master", price: 95, image: "ii8.avif", stock: 2 },
+      { id: 4, name: "Goalkeeper Pro", price: 100, image: "ii2.png", stock: 4 },
+      //2
+      { id: 5, name: "Storm Chaser", price: 110, image: "ii4.png", stock: 6 },
+      { id: 6, name: "Shadow Runner", price: 115, image: "ii5.png", stock: 1 },
+      { id: 7, name: "Control Force", price: 108, image: "ii0.png", stock: 2 },
+      { id: 8, name: "Attack Zone", price: 130, image: "ii9.png", stock: 3 },
+      //3
+      { id: 9, name: "Goalkeeper Pro", price: 100, image: "iiii61.avif", stock: 4 },
+      { id: 10, name: "Storm Chaser", price: 110, image: "iii6.avif", stock: 6 },
+      { id: 11, name: "Shadow Runner", price: 115, image: "iiii6.avif", stock: 1 },
+      { id: 12, name: "Control Force", price: 108, image: "iiii67..avif", stock: 2 },
+      //4
+      { id: 13, name: "LWF Zone", price: 130, image: "nb.webp", stock: 3 },
+      { id: 14, name: "LMF Zone", price: 130, image: "nb1.webp", stock: 3 },
+      { id: 15, name: "Left Back Zone", price: 130, image: "nb.2.png", stock: 3 },
+      { id: 16, name: "Center Zone", price: 130, image: "nb3.webp", stock: 3 }
+      
+    ];
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function addToCart(product) {
+      const existing = cart.find(p => p.id === product.id);
+      if (existing) {
+        if (existing.qty < product.stock) {
+          existing.qty += 1;
+        } else {
+          alert(`⚠️ Only ${product.stock} in stock`);
+          return;
+        }
+      } else {
+        cart.push({ ...product, qty: 1 });
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${product.name} added to cart!`);
+    }
+
+    const productList = document.getElementById("productList");
+    const pagination = document.getElementById("pagination");
+
+    const productsPerPage = 4;
+    let currentPage = 1;
+
+    function displayProducts(page) {
+      productList.innerHTML = "";
+      const start = (page - 1) * productsPerPage;
+      const end = start + productsPerPage;
+      const paginatedItems = products.slice(start, end);
+
+      paginatedItems.forEach(item => {
+        productList.innerHTML += `
+          <div class="card">
+            <img src="${item.image}" alt="${item.name}" loading="lazy">
+            <div class="card-body">
+              <h3>${item.name}</h3>
+              <p>$${item.price}</p>
+              <p style="color: #aaa; font-size: 0.9rem;">Stock: ${item.stock}</p>
+              <button onclick='addToCart(${JSON.stringify(item)})'>Add to Cart</button>
+            </div>
+          </div>`;
+      });
+    }
+
+    function setupPagination() {
+      pagination.innerHTML = "";
+      const totalPages = Math.ceil(products.length / productsPerPage);
+      for (let i = 1; i <= totalPages; i++) {
+        pagination.innerHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+      }
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      displayProducts(currentPage);
+      setupPagination();
+    }
+
+    displayProducts(currentPage);
+    setupPagination();
+
+    function toggleMenu(icon) {
+      const nav = document.getElementById("nav");
+      nav.classList.toggle("show");
+      const iTag = icon.querySelector("i");
+      iTag.classList.toggle("fa-bars");
+      iTag.classList.toggle("fa-times");
+    }
+  </script>
+</body>
+</html>

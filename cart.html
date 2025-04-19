@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=357, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cart - FeatureShoes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Open+Sans:wght@400;700&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            min-width: 357px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 1.8rem;
+            color: #00ff00;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: #00ff00;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: #00ff00;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        @media (max-width: 867px) {
+            nav {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: #000;
+                flex-direction: column;
+                align-items: center;
+                display: none;
+                animation: slideDown 0.3s ease forwards;
+            }
+
+            nav.show {
+                display: flex;
+            }
+
+            nav a {
+                padding: 15px 0;
+                border-top: 1px solid #111;
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #111;
+            border-radius: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .cart-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .cart-details {
+            flex: 1;
+        }
+
+        .cart-item h4 {
+            margin: 0;
+            color: #00ff00;
+        }
+
+        .cart-price {
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .remove-btn {
+            background: #ff0033;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+
+        .qty-btn {
+            background-color: #333;
+            color: #00ff00;
+            border: none;
+            padding: 5px 10px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .qty-btn:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #00ff00;
+            color: #000;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .btn:hover {
+            background-color: #00cc55;
+        }
+
+        .cart-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        /*logo animation*/
+
+        .logo-container {
+            position: relative;
+            text-align: center;
+        }
+
+        .logo-title {
+            max-width: 300px;
+            filter: drop-shadow(0 0 20px #00ff00);
+        }
+
+        .logo-text {
+            color: #00ff00;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #00ff00,
+                        0 0 20px #00ff00,
+                        0 0 30px #00ff00;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #00ff00;
+            }
+            to {
+                text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+            }
+        }
+
+        .football {
+            position: absolute;
+            top: 4px;
+            left: 195px;
+            width: 40px;
+            animation: moveBall 3s infinite ease-in-out;
+        }
+
+        @keyframes moveBall {
+            0% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(200px) rotate(180deg); }
+            100% { transform: translateX(0) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="ball.png" class="football" alt="Football">
+            <a href="index.html" style="text-decoration:none;" class="logo logo-text logo-title">FeatureShoes</a>
+        </div>
+
+        <div class="menu-icon" onclick="toggleMenu(this)">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav id="nav">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html" class="active">Cart</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <div class="total" id="cartTotal"></div>
+        <div class="actions" id="checkoutBtn" style="display: none;">
+            <button class="btn" onclick="goToCheckout()">Proceed to Checkout</button>
+            <a href="products.html" class="btn">Continue Shopping</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu(icon) {
+            const nav = document.getElementById("nav");
+            nav.classList.toggle("show");
+
+            const iTag = icon.querySelector('i');
+            iTag.classList.toggle("fa-bars");
+            iTag.classList.toggle("fa-times");
+        }
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function renderCart() {
+            const cartContainer = document.getElementById("cartItems");
+            const totalElement = document.getElementById("cartTotal");
+            cartContainer.innerHTML = "";
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p style='color:#aaa; text-align:center;'>🛒 Your cart is empty.</p>";
+                document.getElementById("checkoutBtn").style.display = "none";
+                totalElement.innerHTML = "";
+                return;
+            }
+
+            document.getElementById("checkoutBtn").style.display = "flex";
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                totalPrice += item.price * item.qty;
+
+                const div = document.createElement("div");
+                div.className = "cart-item";
+                div.innerHTML = `
+                    <div class="cart-left">
+                        <img src="${item.image || 'https://via.placeholder.com/80'}" class="cart-image" alt="${item.name}">
+                        <div class="cart-details">
+                            <h4>${item.name}</h4>
+                            <p style="font-size: 0.8rem; color: #999;">In stock: ${item.stock}</p>
+                            <div>
+                                <button onclick="decreaseQty(${index})" class="qty-btn">➖</button>
+                                <span style="margin: 0 10px;">${item.qty}</span>
+                                <button onclick="increaseQty(${index})" class="qty-btn">➕</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-price">$${item.price * item.qty}</div>
+                    <button onclick="removeItem(${index})" class="remove-btn">Remove</button>
+                `;
+                cartContainer.appendChild(div);
+            });
+
+            totalElement.innerHTML = `Total: $${totalPrice}`;
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+        }
+
+        function increaseQty(index) {
+            if (cart[index].qty < cart[index].stock) {
+                cart[index].qty += 1;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCart();
+            } else {
+                alert("⚠️ Only " + cart[index].stock + " available in stock.");
+            }
+        }
+
+        function decreaseQty(index) {
+            if (cart[index].qty > 1) {
+                cart[index].qty -= 1;
+            } else {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+        }
+
+        function goToCheckout() {
+            window.location.href = "checkout.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", renderCart);
+    </script>
+
+</body>
+</html>

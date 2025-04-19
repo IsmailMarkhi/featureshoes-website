@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=357, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FeatureShoes - Checkout</title>
+  <script src="https://www.paypal.com/sdk/js?client-id=AeoIhVygg98cjsRo0SIYmRM4k8f57xecJgyLfhGPxcTb6PTgMCNYzYeZQ3Rnk-lNsTbcDSHWDS9Sd782&currency=USD"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Open+Sans:wght@400;700&display=swap');
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: white;
+      min-width: 357px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #000;
+      box-shadow: 0 0 10px #00ff00;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 1.8rem;
+      color: #00ff00;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #00ff00;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #00ff00;
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    @media (max-width: 867px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: #000;
+        flex-direction: column;
+        align-items: center;
+        display: none;
+        animation: slideDown 0.3s ease forwards;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      nav a {
+        padding: 15px 0;
+        border-top: 1px solid #111;
+        width: 100%;
+        text-align: center;
+      }
+
+      .menu-icon {
+        display: block;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .checkout {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px;
+      background-color: #111;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
+    }
+
+    .checkout h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #00ff00;
+      margin-bottom: 30px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1a1a1a;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #00ff00;
+    }
+
+    .item-info h4 {
+      margin: 0;
+      color: #00ff00;
+    }
+
+    .item-info p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 1.3rem;
+      margin-top: 30px;
+      color: #00ff00;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .actions a {
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1rem;
+      text-decoration: none;
+      border: 2px solid #00ff00;
+      color: white;
+      background: #222;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background-color: #000;
+      font-size: 13px;
+      color: #00ff00;
+      text-shadow: 0 0 8px #00ff00;
+      border-top: 1px solid #222;
+    }
+    
+    /*logo animation*/
+    
+    .logo-container {
+      position: relative;
+      text-align: center;
+    }
+
+    .logo-title {
+      max-width: 300px;
+      filter: drop-shadow(0 0 20px #00ff00);
+    }
+
+    .logo-text {
+      color: #00ff00;
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px #00ff00,
+                   0 0 20px #00ff00,
+                   0 0 30px #00ff00;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #00ff00;
+      }
+      to {
+        text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+      }
+    }
+
+    .football {
+      position: absolute;
+      top: 4px;
+      left: 195px;
+      width: 40px;
+      animation: moveBall 3s infinite ease-in-out;
+    }
+
+    @keyframes moveBall {
+      0% { transform: translateX(0) rotate(0deg); }
+      50% { transform: translateX(200px) rotate(180deg); }
+      100% { transform: translateX(0) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <!-- كرة القدم -->
+    <img src="ball.png" class="football" alt="Football">
+     <!-- شعار FeatureShoes -->
+     <a href="index.html"style="text-decoration:none;" class="logo"class="logo-text"class="logo-title">FeatureShoes</a>
+  </div>
+
+    <div class="menu-icon" onclick="toggleMenu(this)">
+      <i class="fas fa-bars"></i>
+    </div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="cart.html">Cart</a>
+      <a href="checkout.html" class="active">Checkout</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="checkout">
+    <h2>Checkout Summary</h2>
+    <div id="checkoutItems"></div>
+    <div class="total" id="grandTotal">Total: $0.00</div>
+    <div id="paypal-button-container" style="margin-top: 30px;"></div>
+
+    <form action="https://formspree.io/f/mjkyjbbq" method="POST" id="orderForm" style="display: none;">
+      <input type="hidden" name="order_summary" id="orderSummary" />
+      <input type="hidden" name="total_amount" id="orderTotal" />
+    </form>
+
+    <div class="actions">
+      <a href="cart.html">← Back to Cart</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 FeatureShoes. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu(icon) {
+      const nav = document.getElementById("nav");
+      nav.classList.toggle("show");
+
+      const iTag = icon.querySelector("i");
+      iTag.classList.toggle("fa-bars");
+      iTag.classList.toggle("fa-times");
+    }
+
+    function renderCheckout() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("checkoutItems");
+      const totalDiv = document.getElementById("grandTotal");
+      const paypalBtn = document.getElementById("paypal-button-container");
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p style='color: #888; text-align:center;'>🛒 Your cart is empty.</p>";
+        totalDiv.style.display = "none";
+        paypalBtn.style.display = "none";
+        return;
+      }
+
+      let total = 0;
+      let summaryText = "";
+      container.innerHTML = "";
+
+      cart.forEach((item) => {
+        total += item.price * item.qty;
+        summaryText += `${item.name} (x${item.qty}) - $${(item.price * item.qty).toFixed(2)}\n`;
+
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <div class="item-info">
+            <h4>${item.name}</h4>
+            <p>Qty: ${item.qty}</p>
+          </div>
+          <strong>$${(item.price * item.qty).toFixed(2)}</strong>
+        `;
+        container.appendChild(div);
+      });
+
+      totalDiv.innerText = "Total: $" + total.toFixed(2);
+      document.getElementById("orderSummary").value = summaryText;
+      document.getElementById("orderTotal").value = `$${total.toFixed(2)}`;
+
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: { value: total.toFixed(2) }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert('✅ Payment completed by ' + details.payer.name.given_name);
+            document.getElementById("orderForm").submit();
+            localStorage.removeItem("cart");
+            setTimeout(() => window.location.href = "index.html", 2000);
+          });
+        }
+      }).render('#paypal-button-container');
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCheckout);
+  </script>
+</body>
+</html>
